@@ -928,11 +928,10 @@ images upon export.
 If you then turn on inline images with ~M-x org-toggle-inline-images~, you can
 preview the generated image from within your Org buffer.
 
-Some languages including /R/, /gnuplot/, /dot/, and /ditaa/ provide special
-handling of the ~:file~ header argument automatically wrapping the code block
-body in the boilerplate code required to save output to the specified file.
-This is often useful for saving graphical output of a code block to the
-specified file.
+Some languages including /R/, /gnuplot/, /dot/, /ditaa/, and /mermaid/, provide special
+handling of the ~:file~ header argument automatically wrapping the code block body
+in the boilerplate code required to save output to the specified file.  This is
+often useful for saving graphical output of a code block to the specified file.
 
 /This means that the argument of the ~:file~ header can be omitted and the
 file name can be generated within the source block./
@@ -1198,7 +1197,7 @@ Note the parens in the noweb reference:
 #+name: testing
 #+begin_src shell :results raw
 echo "["
-ls *.org | sed 's/$/;/'
+ls *.org | sed 's_$_;_'
 echo "]"
 #+end_src
 

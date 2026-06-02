@@ -1,13 +1,15 @@
+
+
 # Inheritance
 
 Header arguments can be set at different levels of a hierarchy:
 
-1.  **Default** header arguments (See section 1.1) shipped with Org mode
-2.  Default **languages-specific** header arguments (See section 1.2) shipped with Org mode
-3.  **Buffer** (or file) level header arguments (See section 1.3)
-4.  **Subtree** header arguments (See section 1.4)
-5.  **Code block** header arguments (See section 1.5)
-6.  **Call line** header arguments (See section 1.6)
+1.  [**Default** header arguments](#org543badd) shipped with Org mode
+2.  [Default **languages-specific** header arguments](#org3818c7a) shipped with Org mode
+3.  [**Buffer** (or file) level header arguments](#org17b7366)
+4.  [**Subtree** header arguments](#org0e442fc)
+5.  [**Code block** header arguments](#orgc15d81e)
+6.  [**Call line** header arguments](#org03852d9)
 
 At the top of the hierarchy, default header arguments shipped with Org mode
 are the most general of all: they define behavior common to all code blocks,
@@ -16,9 +18,12 @@ unless set otherwise, inherited by all lower levels.
 Header arguments near the bottom of the hierarchy provide behavior more
 specific to a (group of) code block(s).
 
+
+<a id="org543badd"></a>
+
 ## Default header arguments shipped with Org mode
 
--   Variable `org-babel-default-header-args` for source blocks
+-   Variable `org-babel-default-header-args` for all source blocks
 -   Variable `org-babel-default-inline-header-args` for inline code blocks
 -   Variable `org-babel-default-lob-header-args` for `#+call` lines
 
@@ -30,6 +35,16 @@ These default header arguments can be set by the user:
 
 This can also be done file-wide through the use of *file local variables*.
 
+<div class="note" id="org564c621">
+<p>
+The &ldquo;+&rdquo; on <code>header-args</code> applies when using the same property on multiple lines.
+</p>
+
+</div>
+
+
+<a id="org3818c7a"></a>
+
 ## Default languages-specific header arguments shipped with Org mode
 
 -   Variable `org-babel-default-header-args:emacs-lisp` for Emacs Lisp
@@ -37,8 +52,10 @@ This can also be done file-wide through the use of *file local variables*.
 -   Variable `org-babel-default-header-args:org` for Org
 -   Etc.
 
-<div class="seealso">
-`org-babel-common-header-args-w-values`
+<div class="seealso" id="org09c9df8">
+<p>
+<code>org-babel-common-header-args-w-values</code>
+</p>
 
 </div>
 
@@ -64,39 +81,35 @@ Header arguments which have different defaults between languages:
 <th scope="col" class="org-left">:results</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
-<td class="org-left">general-purpose languages + *shell*</td>
+<td class="org-left">general-purpose languages + <i>shell</i></td>
 <td class="org-left">code</td>
 <td class="org-left">no</td>
 <td class="org-left">replace</td>
 </tr>
 
-
 <tr>
-<td class="org-left">*ledger*</td>
+<td class="org-left"><i>ledger</i></td>
 <td class="org-left">code</td>
 <td class="org-left">no</td>
 <td class="org-left">output replace</td>
 </tr>
 
-
 <tr>
-<td class="org-left">*org*</td>
+<td class="org-left"><i>org</i></td>
 <td class="org-left">code</td>
 <td class="org-left">no</td>
 <td class="org-left">silent raw</td>
 </tr>
-
-
+</tbody>
+<tbody>
 <tr>
-<td class="org-left">*latex*</td>
+<td class="org-left"><i>latex</i></td>
 <td class="org-left">results</td>
 <td class="org-left">no</td>
 <td class="org-left">latex replace</td>
 </tr>
-
 
 <tr>
 <td class="org-left">graphics-only languages</td>
@@ -106,6 +119,16 @@ Header arguments which have different defaults between languages:
 </tr>
 </tbody>
 </table>
+
+<div class="warning" id="org1d5df56">
+<p>
+As <code>latex</code> code blocks export <code>results</code> by default, they will be exported enclosed
+in a LaTeX export block (<code>#+BEGIN_LATEX ... #+END_LATEX</code>), hence ignored by all
+backends but the LaTeX one. Hence, if you want to export the LaTeX code, use
+<code>#+BEGIN_SRC latex :exports code</code>.
+</p>
+
+</div>
 
 These default language-specific header arguments can be changed by the user:
 
@@ -117,17 +140,22 @@ These default language-specific header arguments can be changed by the user:
 
 This can also be done file-wide (for certain files) through the use of:
 
--   property lines (See section 1.3) or
+-   [property lines](#org17b7366) or
 -   *file local variables*.
 
-## Buffer (or file) level header arguments
 
-A `#+PROPERTY:` line located **anywhere** in a buffer affects the entire file: it
+<a id="org17b7366"></a>
+
+## Buffer (or file) wide level header arguments
+
+A `#+PROPERTY:` line (located **anywhere** in a buffer) affects the entire file: it
 sets a **global** property.
 
-<div class="warning">
-Don&rsquo;t forget to `C-c C-c` on these arguments (just one of them in your preamble)
+<div class="warning" id="orgb9d3d8f">
+<p>
+Don&rsquo;t forget to <code>C-c C-c</code> on these arguments (just one of them in your preamble)
 to make sure they&rsquo;re updated before trying another export.
+</p>
 
 </div>
 
@@ -138,10 +166,12 @@ the line:
 
     #+PROPERTY: header-args :tangle yes
 
-<div class="note">
-Before, **header arguments** could also be specified as **separate properties**
-(`#+PROPERTY: tangle yes`, for example), but that syntax has been **deprecated** in
-the commit `90b16870` of 2013-06-23 as that was slower to fetch block properties.
+<div class="note" id="orgf1a45bd">
+<p>
+Before, <b>header arguments</b> could also be specified as <b>separate properties</b>
+(<code>#+PROPERTY: tangle yes</code>, for example), but that syntax has been <b>deprecated</b> in
+the commit <code>90b16870</code> of 2013-06-23 as that was slower to fetch block properties.
+</p>
 
 </div>
 
@@ -150,32 +180,40 @@ the use of:
 
     #+PROPERTY: header-args :results output :cache yes
 
-That can be over-ridden on a per-subtree (See section 1.4) or per-block (See section 1.5) basis.
+That can be over-ridden on a [per-subtree](#org0e442fc) or [per-block](#orgc15d81e) basis.
 
-<div class="warning">
-Any property specification, unless it is postfixed with a `+`, will *reset* the
+<div class="warning" id="orgb2f2e2e">
+<p>
+Any property specification, unless it is postfixed with a <code>+</code>, will <i>reset</i> the
 value of that property to its current value.
+</p>
 
 </div>
 
 In the case of two `#+PROPERTY:` lines for the same property, the property will
 have the later value.
 
-But there is a general mechanism for the **concatenation of property** strings
-(**accumulated values**):
+But there is a general mechanism for the **concatenation of property** strings to
+augment the properties (**accumulated values**):
 
     #+PROPERTY: header-args:R :exports results
     #+PROPERTY: header-args:R+ :width 800
 
+
+<a id="org0e442fc"></a>
+
 ## Subtree header arguments
 
-In contrast to property lines, a `:PROPERTIES:` block is only valid **for the given
-tree (and subtrees)**:
+In contrast to property lines, a local `:PROPERTIES:` block is only valid **for the
+given tree (and subtrees)**:
 
     * Outline heading
      :PROPERTIES:
      :header-args: :results output :cache yes
      :END:
+
+
+<a id="orgc15d81e"></a>
 
 ## Code block header arguments
 
@@ -184,7 +222,11 @@ tree (and subtrees)**:
     ... some code ...
     #+end_src
 
+
+<a id="org03852d9"></a>
+
 ## Call line header arguments
+
 
 # Standard header arguments
 
@@ -200,101 +242,94 @@ The following table lists the standard header arguments that Org Babel uses.
 </colgroup>
 <tbody>
 <tr>
-<td class="org-left">:cache (See section 3)</td>
-<td class="org-left">:noweb-ref (See section 17)</td>
+<td class="org-left"><a href="#cache">:cache</a></td>
+<td class="org-left"><a href="#noweb-ref">:noweb-ref</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:cmdline (See section 4)</td>
-<td class="org-left">:noweb-sep (See section 18)</td>
+<td class="org-left"><a href="#cmdline">:cmdline</a></td>
+<td class="org-left"><a href="#noweb-sep">:noweb-sep</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:colnames (See section 5)</td>
-<td class="org-left">:padline (See section 19)</td>
+<td class="org-left"><a href="#colnames">:colnames</a></td>
+<td class="org-left"><a href="#padline">:padline</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:comments (See section 6)</td>
-<td class="org-left">:post (See section 20)</td>
+<td class="org-left"><a href="#comments">:comments</a></td>
+<td class="org-left"><a href="#post">:post</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:dir (See section 7)</td>
-<td class="org-left">:prologue (See section 21)</td>
+<td class="org-left"><a href="#dir">:dir</a></td>
+<td class="org-left"><a href="#prologue">:prologue</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:epilogue (See section 8)</td>
-<td class="org-left">:results (See section 22)</td>
+<td class="org-left"><a href="#epilogue">:epilogue</a></td>
+<td class="org-left"><a href="#results">:results</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:eval (See section 9)</td>
-<td class="org-left">:rownames (See section 23)</td>
+<td class="org-left"><a href="#eval">:eval</a></td>
+<td class="org-left"><a href="#rownames">:rownames</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:exports (See section 10)</td>
-<td class="org-left">:sep (See section 24)</td>
+<td class="org-left"><a href="#exports">:exports</a></td>
+<td class="org-left"><a href="#sep">:sep</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:file (See section 11)</td>
-<td class="org-left">:session (See section 25)</td>
+<td class="org-left"><a href="#file">:file</a></td>
+<td class="org-left"><a href="#session">:session</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:file-desc (See section 12)</td>
-<td class="org-left">:shebang (See section 26)</td>
+<td class="org-left"><a href="#file-desc">:file-desc</a></td>
+<td class="org-left"><a href="#shebang">:shebang</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:hlines (See section 13)</td>
-<td class="org-left">:tangle (See section 27)</td>
+<td class="org-left"><a href="#hlines">:hlines</a></td>
+<td class="org-left"><a href="#tangle">:tangle</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:mkdirp (See section 14)</td>
-<td class="org-left">:tangle-mode (See section 28)</td>
+<td class="org-left"><a href="#mkdirp">:mkdirp</a></td>
+<td class="org-left"><a href="#tangle-mode">:tangle-mode</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:no-expand (See section 15)</td>
-<td class="org-left">:var (See section 29)</td>
+<td class="org-left"><a href="#no-expand">:no-expand</a></td>
+<td class="org-left"><a href="#var">:var</a></td>
 </tr>
 
-
 <tr>
-<td class="org-left">:noweb (See section 16)</td>
-<td class="org-left">:wrap (See section 30)</td>
+<td class="org-left"><a href="#noweb">:noweb</a></td>
+<td class="org-left"><a href="#wrap">:wrap</a></td>
 </tr>
 </tbody>
 </table>
 
-<div class="note">
+<div class="note" id="orge190f3e">
+<p>
 The argument of any header option can be replaced by an ELisp form &#x2013; which
 should return a string (or a list of strings, depending on the case).
+</p>
 
 </div>
 
 ---
 
+
+<a id="cache"></a>
+
 # :cache
 
 Avoids re-evaluating unchanged code blocks.
+
 
 ## Options
 
@@ -304,6 +339,7 @@ Avoids re-evaluating unchanged code blocks.
     *expanded* code block (= code block and parameters) with the **results**.  It
     allows the results to be returned without having to re-run the code
     block &#x2014; unless the code or the input parameters have changed.
+
 
 ## Remarks
 
@@ -320,7 +356,9 @@ Though, this code block shouldn&rsquo;t be marked `:cache` unless the desired (a
 odd) behavior is to have a datestamp that is only updated when the user
 forcibly re-evaluates the block (with `C-u C-c C-v C-e`).
 
+
 ## Examples
+
 
 ### Avoid re-evaluating unchanged code blocks
 
@@ -342,6 +380,7 @@ time it is run.
     Done!
     #+end_example
 
+
 ### Avoid re-evaluating code blocks unless some process restarts
 
 The following example allows to include the PID of the R process in the results
@@ -353,14 +392,19 @@ hash, so that the code would be rerun only if the R process (session) restarts.
     x <- 'side effect'
     'done' # add something small to get a results block
 
+
 ## See also
 
-:eval (See section 9)   
-:exports (See section 10)
+[:eval](#eval)   
+[:exports](#exports)
 
 ---
 
+
+<a id="cmdline"></a>
+
 # :cmdline
+
 
 ## Options
 
@@ -368,9 +412,11 @@ hash, so that the code would be rerun only if the R process (session) restarts.
 
 -   **`:cmdline <...>`:** Pass some command line arguments.
 
+
 ## Remarks
 
 The `:cmdline` header argument is supported by a couple of languages.
+
 
 ## Examples
 
@@ -388,9 +434,13 @@ script (supplying the value in the call line).
 
 ---
 
+
+<a id="colnames"></a>
+
 # :colnames
 
 Handles **column names in tables**.
+
 
 ## Options
 
@@ -402,8 +452,8 @@ Handles **column names in tables**.
 -   **`:colnames no`:** Don&rsquo;t strip the header.  Re-add headers (post-processing).   
     (default for Emacs Lisp code blocks)
 
--   **`:colnames yes`:** Tells Org Babel that your first row contains column names.  Applies the
-    code block to the body of the input table.
+-   **`:colnames yes`:** Tells Org Babel that your first row contains column names (`header = TRUE` in
+    R).  Applies the code block to the body of the input table.
 
 -   **`:colnames <LIST>`:** Specifies to use `<LIST>` as column names.
 
@@ -411,12 +461,13 @@ Handles **column names in tables**.
     
     Is the same as &ldquo;none&rdquo; WHEN NOT SET AT A HIGHER LEVEL.
 
+
 ## Remarks
 
 By default, the first row will be used for column names if followed by a `hline`
 XXX???XXX.  Without a `hline`, use `:colnames yes`.
 
-<table id="orgtable1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org357a7dc" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -436,7 +487,6 @@ XXX???XXX.  Without a `hline`, use `:colnames yes`.
 <th scope="col" class="org-left">Gamma</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">First</td>
@@ -445,14 +495,12 @@ XXX???XXX.  Without a `hline`, use `:colnames yes`.
 <td class="org-left">C1</td>
 </tr>
 
-
 <tr>
 <td class="org-left">Second</td>
 <td class="org-left">A2</td>
 <td class="org-left">B2</td>
 <td class="org-left">C2</td>
 </tr>
-
 
 <tr>
 <td class="org-left">Third</td>
@@ -465,6 +513,7 @@ XXX???XXX.  Without a `hline`, use `:colnames yes`.
 
     colnames(data)
     rownames(data)
+
 
 ### Notes
 
@@ -482,12 +531,13 @@ of :results table.
 In my experience :results table is mostly useful for coercing a value that babel
 would otherwise interpret as a scalar into a single element table.
 
+
 ## Examples
 
 Consider the following input tables, one without column names, one with column
 names.
 
-<table id="orgtable2" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgb907072" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -501,12 +551,10 @@ names.
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -515,7 +563,7 @@ names.
 </tbody>
 </table>
 
-<table id="orgtable3" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orga33bd49" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -529,19 +577,16 @@ names.
 <th scope="col" class="org-left">word</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -549,6 +594,7 @@ names.
 </tr>
 </tbody>
 </table>
+
 
 ### Using no `:colnames` header argument
 
@@ -568,12 +614,10 @@ The following example outputs the table without column names.
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -596,12 +640,10 @@ The following example outputs the table without column names.
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -609,6 +651,7 @@ The following example outputs the table without column names.
 </tr>
 </tbody>
 </table>
+
 
 ### Using `:colnames no`
 
@@ -629,12 +672,10 @@ no column names.
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -657,18 +698,15 @@ no column names.
 <td class="org-left">word</td>
 </tr>
 
-
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -677,6 +715,7 @@ no column names.
 </tbody>
 </table>
 
+
 ### Using `:colnames yes`
 
 The following example outputs the table with its column names.
@@ -684,6 +723,7 @@ The following example outputs the table with its column names.
     echo "$data"
 
     ((1 "one") (2 "two") (3 "three"))
+
 
 ### Show the labels of the vertical and the horizontal axes
 
@@ -705,11 +745,10 @@ The following example outputs the table with its column names.
 <tr>
 <th scope="col" class="org-left">&#xa0;</th>
 <th scope="col" class="org-right">&#xa0;</th>
-<th scope="col" class="org-right">**happiness**</th>
+<th scope="col" class="org-right"><b>happiness</b></th>
 <th scope="col" class="org-right">&#xa0;</th>
 <th scope="col" class="org-right">&#xa0;</th>
 </tr>
-
 
 <tr>
 <th scope="col" class="org-left">&#xa0;</th>
@@ -719,16 +758,14 @@ The following example outputs the table with its column names.
 <th scope="col" class="org-right">2</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
-<td class="org-left">**org.files**</td>
+<td class="org-left"><b>org.files</b></td>
 <td class="org-right">0</td>
 <td class="org-right">1.00</td>
 <td class="org-right">0.00</td>
 <td class="org-right">0.00</td>
 </tr>
-
 
 <tr>
 <td class="org-left">&#xa0;</td>
@@ -737,7 +774,6 @@ The following example outputs the table with its column names.
 <td class="org-right">1.00</td>
 <td class="org-right">1.00</td>
 </tr>
-
 
 <tr>
 <td class="org-left">&#xa0;</td>
@@ -749,9 +785,10 @@ The following example outputs the table with its column names.
 </tbody>
 </table>
 
+
 ### Utility function
 
-<table id="orgtable4" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org80e236a" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -762,22 +799,18 @@ The following example outputs the table with its column names.
 <th scope="col" class="org-left">numbers</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-left">two</td>
 </tr>
 
-
 <tr>
 <td class="org-left">three</td>
 </tr>
-
 
 <tr>
 <td class="org-left">four</td>
@@ -786,6 +819,7 @@ The following example outputs the table with its column names.
 </table>
 
     (mapcar (lambda (row) (mapcar #'length row)) in)
+
 
 ### `#+call` get the first row of output table lost when using latex export
 
@@ -796,18 +830,23 @@ The workaround is to use:
 
     #+call: t1() :colnames yes
 
+
 ## See also
 
-:hlines (See section 13)   
-:rownames (See section 23)
+[:hlines](#hlines)   
+[:rownames](#rownames)
 
 ---
+
+
+<a id="comments"></a>
 
 # :comments
 
 Controls the insertion of extra comments into the tangled code files to allow
 backward linking from tangled code blocks to the original code blocks (from
 which the code was tangled).
+
 
 ## Options
 
@@ -831,9 +870,10 @@ which the code was tangled).
 
 -   **`:comments both`:** Turns on both the `link` and `org` comment options.
 
+
 ## See also
 
-:tangle (See section 27)
+[:tangle](#tangle)
 
 The variable `org-babel-tangle-use-relative-file-links` controls whether files
 and links in comments in tangled files use relative or absolute path names (it
@@ -841,9 +881,13 @@ defaults to relative paths).
 
 ---
 
+
+<a id="dir"></a>
+
 # :dir
 
 Specifies the default (possibly **remote**) directory during code block execution.
+
 
 ## Options
 
@@ -851,12 +895,14 @@ Specifies the default (possibly **remote**) directory during code block executio
 
 -   **`:dir <DIR>`:** Specifies to use `DIR` as the **default directory** for code block execution.
 
+
 ## Remarks
 
 You can use the `:dir` header argument for **remote execution**.  The directory is
 specified using using [Tramp filename syntax](http://www.gnu.org/software/emacs/manual/html_node/tramp/Filename-Syntax.html).
 
 `:results output` seems to be necessary!
+
 
 ## Examples
 
@@ -870,15 +916,20 @@ WHY DON&rsquo;T WE HAVE TO SPECIFY :OUTPUT FOR THE SHELL BLOCK?
 
     SELECT 2+2 AS 'four', 1+1 AS 'one';
 
+
 ## See also
 
-:file (See section 11)
+[:file](#file)
 
 ---
+
+
+<a id="epilogue"></a>
 
 # :epilogue
 
 Appends text to code block body.
+
 
 ## Options
 
@@ -887,15 +938,20 @@ Appends text to code block body.
 -   **`:epilogue <TEXT>`:** Appends the value of the `:epilogue` header argument to the code block
     body before execution.
 
+
 ## See also
 
-:prologue (See section 21)
+[:prologue](#prologue)
 
 ---
+
+
+<a id="eval"></a>
 
 # :eval
 
 Specifies permissions for *every* execution of code blocks.
+
 
 ## Options
 
@@ -925,10 +981,29 @@ Specifies permissions for *every* execution of code blocks.
 
 -   **`:noeval`:** Is the same as `:eval no`.
 
--   **`:eval never-export`:** Allows interactive evaluation of the code block, but inhibits its
-    evaluation during export.
+-   **`:eval never-export`:** Allows interactive evaluation of the code block, but **inhibits** its
+    **evaluation during export**.
+    
+    <div class="note" id="org06847f0">
+    <p>
+    When <code>org-export-babel-evaluate</code> is set to <code>nil</code>, <b>no code will be evaluated</b> as
+    part of the export process and <b>no header arguments will be obeyed</b>!
+    </p>
+    
+    <p>
+    Users who simply wish to <b>avoid evaluating code on export</b> should use the
+    header argument <code>:eval never-export</code>.
+    </p>
+    
+    <p>
+    See also
+    <a href="https://www.wisdomandwonder.com/article/10400/the-fifteen-questions-that-you-must-answer-in-your-org-mode-literate-programming-configuration">https://www.wisdomandwonder.com/article/10400/the-fifteen-questions-that-you-must-answer-in-your-org-mode-literate-programming-configuration</a>
+    </p>
+    
+    </div>
 
 -   **`:eval no-export`:** Is the same as `:eval never-export`.
+
 
 ## Remarks
 
@@ -937,29 +1012,34 @@ it easy to simply manually generate the results of a code block (e.g., through
 an interactive evaluation), and set the `:eval` property of the code block to
 `never-export`.
 
-Note that, unlike tangling (See section 27), evaluation requires the specific language to be
-supported for both performing the evaluation and collecting the results (See section 22).
+Note that, unlike [tangling](#tangle), evaluation requires the specific language to be
+supported for both performing the evaluation and collecting the [results](#results).
+
 
 ## See also
 
-:cache (See section 3)   
-:exports (See section 10)   
-:session (See section 25)
+[:cache](#cache)   
+[:exports](#exports)   
+[:session](#session)
 
 Variable `org-confirm-babel-evaluate`.
 
 ---
 
+
+<a id="exports"></a>
+
 # :exports
 
 Specifies how code and/or results should be handled **during export**.
+
 
 ## Options
 
 -   **`:exports none`:** Doesn&rsquo;t include anything in the exported file.
 
 -   **`:exports code`:** Includes (only) the body of the code block into the exported file.   
-    (default)   
+    (default shipped with Org mode)   
     (default for Org code blocks)
 
 -   **`:exports results`:** Includes (only) the **results block** in the exported file.   
@@ -967,19 +1047,20 @@ Specifies how code and/or results should be handled **during export**.
     (default for LaTeX code blocks)   
     (default for code blocks in graphics-only languages)
 
--   **`:exports both`:** Includes both the code block and the results (See section 9) in the exported file.
+-   **`:exports both`:** Includes both the code block and the [results](#eval) in the exported file.
+
 
 ## Remarks
 
--   When `:exports` is set to `none` or `code`, Org Babel will **not run (See section 9)** the code block
+-   When `:exports` is set to `none` or `code`, Org Babel will **not [run](#eval)** the code block
     **during export**, avoiding to (re-)generate the results on every export.  In
-    particular, use that on code blocks which cannot be executed (See section 9) on
+    particular, use that on code blocks which cannot be [executed](#eval) on
     their own.
     
-    This has **no effect on interactive evaluation (See section 9)**, though.
+    This has **no effect on interactive [evaluation](#eval)**, though.
 
 -   When `:exports` is set to `results` or `both`, if evaluation is allowed during
-    export, the code block will be (re-)evaluated (See section 9) during export.  Otherwise, the
+    export, the code block will be (re-)[evaluated](#eval) during export.  Otherwise, the
     current (unchanged) results block, when present, will be included **in the
     exported file**.
 
@@ -990,17 +1071,29 @@ Specifies how code and/or results should be handled **during export**.
     evaluation is allowed during export, because its side-effects may be needed
     for code run elsewhere.  If you don&rsquo;t want that, set `:eval` accordingly.
 
+
+## Examples
+
+    printf "This text will not be exported.\n"
+
+Only the `bash` block will appear in the export, but **not** its output.
+
+
 ## See also
 
-:cache (See section 3)   
-:eval (See section 9)   
-:results (See section 22)
+[:cache](#cache)   
+[:eval](#eval)   
+[:results](#results)
 
 ---
+
+
+<a id="file"></a>
 
 # :file
 
 Specifies to **write the results to a file**.
+
 
 ## Options
 
@@ -1008,12 +1101,13 @@ Specifies to **write the results to a file**.
     inserts (for the **results block**) a **link to the file** into the Org mode
     buffer.
 
+
 ## Remarks
 
 Extension can be everything: `.png`, `.pdf`, `.txt`, `.csv`, etc.
 
-When relative, the filename is interpreted relatively to the default
-directory (See section 7).
+When relative, the filename is interpreted relatively to the [default
+directory](#dir).
 
 -   For **graphics-only languages** (e.g. *asymptote*, *ditaa*, *dot*, *gnuplot*,
     *mscgen*, *plantuml*), the &ldquo;results&rdquo; is the **graphics**, and a link to the
@@ -1034,16 +1128,17 @@ images upon export.
 If you then turn on inline images with `M-x org-toggle-inline-images`, you can
 preview the generated image from within your Org buffer.
 
-Some languages including *R*, *gnuplot*, *dot*, and *ditaa* provide special
-handling of the `:file` header argument automatically wrapping the code block
-body in the boilerplate code required to save output to the specified file.
-This is often useful for saving graphical output of a code block to the
-specified file.
+Some languages including *R*, *gnuplot*, *dot*, *ditaa*, and *mermaid*, provide special
+handling of the `:file` header argument automatically wrapping the code block body
+in the boilerplate code required to save output to the specified file.  This is
+often useful for saving graphical output of a code block to the specified file.
 
 *This means that the argument of the `:file` header can be omitted and the
 file name can be generated within the source block.*
 
+
 ## Examples
+
 
 ### Saving the textual output from a general-purpose language to a text file
 
@@ -1055,11 +1150,13 @@ Send the text output of `ls -l` directly to a file:
 
 Recall that `:results value` is the default.
 
+
 ### Saving the graphical output from a general-purpose language to an image file
 
     plot(1:10, (1:10)^2)
 
 ![img](images/square.png)
+
 
 ### Saving the graphical output from a graphics language to an image file
 
@@ -1084,13 +1181,17 @@ Recall that `:results value` is the default.
     
         plot(1:10, (1:10)^2)
 
+
 ## See also
 
-:dir (See section 7)   
-:results (See section 22)   
-:sep (See section 24) (for saving tabular results)
+[:dir](#dir)   
+[:results](#results)   
+[:sep](#sep) (for saving tabular results)
 
 ---
+
+
+<a id="file-desc"></a>
 
 # :file-desc
 
@@ -1098,9 +1199,13 @@ Specifies a description for file results.
 
 ---
 
+
+<a id="hlines"></a>
+
 # :hlines
 
 Handles **horizontal lines** in input tables.
+
 
 ## Options
 
@@ -1110,13 +1215,15 @@ Handles **horizontal lines** in input tables.
 -   **`:hlines yes`:** Preserves horizontal lines in the input table.   
     (default for Emacs Lisp code blocks)
 
+
 ## Remarks
 
-**Don't confound this with the :colnames (See section 5) machinery.**
+**Don&rsquo;t confound this with the [:colnames](#colnames) machinery.**
+
 
 ## Examples
 
-<table id="orgtable5" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org9fc47c4" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -1130,19 +1237,16 @@ Handles **horizontal lines** in input tables.
 <th scope="col" class="org-left">Val</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -1151,7 +1255,7 @@ Handles **horizontal lines** in input tables.
 </tbody>
 </table>
 
-<table id="orgtable6" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgb969e82" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -1165,20 +1269,17 @@ Handles **horizontal lines** in input tables.
 <th scope="col" class="org-left">Val</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">one</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">two</td>
 </tr>
 </tbody>
-
 <tbody>
 <tr>
 <td class="org-right">3</td>
@@ -1199,17 +1300,22 @@ The `:hlines yes` header argument must be set on the call line itself.
 
     ((1 "one") (2 "two") (3 "three"))
 
-    (("Key" "Val") (1 "one") (2 "two") (3 "three"))
+    (("Key" "Val") hline (1 "one") (2 "two") hline (3 "three"))
+
 
 ## See also
 
-:colnames (See section 5)
+[:colnames](#colnames)
 
 ---
+
+
+<a id="mkdirp"></a>
 
 # :mkdirp
 
 Toggles creation of parent directories of target files during tangling.
+
 
 ## Options
 
@@ -1219,25 +1325,34 @@ Toggles creation of parent directories of target files during tangling.
 
 ---
 
+
+<a id="no-expand"></a>
+
 # :no-expand
 
 Turns off the code blocks expansion **during tangling**.
+
 
 ## Remarks
 
 `:no-expand` has no effect during execution.
 
+
 ## See also
 
-:noweb (See section 16)   
-:noweb-ref (See section 17)   
-:noweb-sep (See section 18)   
+[:noweb](#noweb)   
+[:noweb-ref](#noweb-ref)   
+[:noweb-sep](#noweb-sep)   
 
 ---
+
+
+<a id="noweb"></a>
 
 # :noweb
 
 Specifies when expansion of &ldquo;noweb&rdquo; style references should occur.
+
 
 ## Options
 
@@ -1257,6 +1372,7 @@ Specifies when expansion of &ldquo;noweb&rdquo; style references should occur.
 
 -   **`:noweb eval`:** Expands noweb references **only** during interactive evaluation.
 
+
 ## Syntax of noweb references
 
 -   **`<<code-block-name>>`:** Insert the literal body of **code** block `code-block-name` itself.
@@ -1271,45 +1387,57 @@ Note that you can customize `org-babel-noweb-wrap-start` and
 `org-babel-noweb-wrap-end` to use something else than angle brackets (for example,
 double quotes).
 
-<div class="tip">
-The Noweb syntax allows the use of **blanks in names of code blocks** (hence,
+<div class="tip" id="org102c8d9">
+<p>
+The Noweb syntax allows the use of <b>blanks in names of code blocks</b> (hence,
 sentences for code block names, so that we can enjoy the literate in literate
 programming a lot more!) since 2015-02-18.
+</p>
 
 </div>
 
+
 ## Examples
 
+
 ### Expand block
+
 
 ### Execute block
 
 Note the parens in the noweb reference:
 
     echo "["
-    ls *.org | sed 's/$/;/'
+    ls *.org | sed 's_$_;_'
     echo "]"
+
 
 ### Expand variable in tangled code
 
+
 ## See also
 
-:comments (See section 6)   
-:no-expand (See section 15)   
-:noweb-ref (See section 17)   
-:noweb-sep (See section 18)   
-:padline (See section 19)   
-:tangle (See section 27)
+[:comments](#comments)   
+[:no-expand](#no-expand)   
+[:noweb-ref](#noweb-ref)   
+[:noweb-sep](#noweb-sep)   
+[:padline](#padline)   
+[:tangle](#tangle)
 
 Concept of Noweb references.
 
 ---
 
+
+<a id="noweb-ref"></a>
+
 # :noweb-ref
 
 Specifies block&rsquo;s noweb reference resolution target.
 
+
 ## Options
+
 
 ## Remarks
 
@@ -1337,6 +1465,7 @@ parent header.
 That feature enables the true literate programming to remove it would
 be a great loss.
 
+
 ## Examples
 
     *** Some subtree
@@ -1359,33 +1488,43 @@ be a great loss.
     second
     #+end_example
 
+
 ## See also
 
-:noweb (See section 16)   
-:noweb-sep (See section 18)
+[:noweb](#noweb)   
+[:noweb-sep](#noweb-sep)
 
 The variable `org-babel-use-quick-and-dirty-noweb-expansion` controls XXX
 
 ---
 
+
+<a id="noweb-sep"></a>
+
 # :noweb-sep
 
 Specifies the string to use to separate accumulated noweb references.
+
 
 ## Options
 
 By default a newline is used.
 
+
 ## See also
 
-:noweb (See section 16)   
-:noweb-ref (See section 17)
+[:noweb](#noweb)   
+[:noweb-ref](#noweb-ref)
 
 ---
+
+
+<a id="padline"></a>
 
 # :padline
 
 Controls insertion of padding lines in tangled code files.
+
 
 ## Options
 
@@ -1393,19 +1532,25 @@ Controls insertion of padding lines in tangled code files.
 
 -   **`:padline no`:** Gets rid of the **first blank line** preceding tangled output.
 
+
 ## Remarks
 
 The padline is not inserted at the top of the file, only between blocks.
 
+
 ## See also
 
-:noweb (See section 16)
+[:noweb](#noweb)
 
 ---
+
+
+<a id="post"></a>
 
 # :post
 
 **Post-processes** the **results** of a code block.
+
 
 ## Remarks
 
@@ -1426,7 +1571,8 @@ The padline is not inserted at the top of the file, only between blocks.
     certain blocks (and not others).
 
 -   The value of `:post` should be a **Babel call** (in the same format as e.g. a `#+call`
-      line), not an Emacs Lisp form.
+    line), not an Emacs Lisp form.
+
 
 ## Examples
 
@@ -1439,6 +1585,7 @@ We can have a sequence of forward chained blocks with length > 2.
 Putting the previous two together we get.
 
     4
+
 
 ## Buggy?
 
@@ -1469,6 +1616,7 @@ This works:
 
     (+ 2 2)
 
+
 ## Additional header arguments
 
 Additional header arguments may be passed to the `:post`-function.
@@ -1490,9 +1638,13 @@ The example shows how to use `:post` together with the `:colnames` header argume
 
 ---
 
+
+<a id="prologue"></a>
+
 # :prologue
 
 Prepends text to code block body.
+
 
 ## Options
 
@@ -1501,17 +1653,23 @@ Prepends text to code block body.
 -   **`:prologue <TEXT>`:** Prepends the value of the `:prologue` header argument to the code block
     body before execution.
 
+
 ## See also
 
-:epilogue (See section 8)
+[:epilogue](#epilogue)
 
 ---
+
+
+<a id="results"></a>
 
 # :results
 
 Specifies the type of results and how they will be collected and handled.
 
+
 ## Options
+
 
 ### How the code block is evaluated
 
@@ -1530,6 +1688,7 @@ evaluation.
 
 If you get the message `Source block produced no output`, try adding `:results
 output`.
+
 
 ### How the results are inserted into the Org mode buffer
 
@@ -1586,13 +1745,15 @@ output`.
 
     Specifies what type of results the code block will return.
     
-    -   **`:results raw`:** Means that the input is a string (so hline processing is not performed).   
+    -   **`:results raw`:** Means that the output is a string (so hline processing is not performed).   
         (default for Org code blocks)   
         (implies `verbatim` results, unless otherwise stated)
-    
-    Note that it is allowable for raw results to include newlines (if the code
-    block returns a newline): the purpose of raw results is specifically to
-    **not** change the result.
+        
+        Note that it is allowable for raw results to include newlines (if the code
+        block returns a newline): the purpose of raw results is specifically to
+        **not** change the result.
+        
+        See [Remarks](#org1e4eabb).
     
     -   **`:results html`:** Specifies that the **results** of the code block is **raw HTML code** (which can
         be included correctly in HTML-based export targets).
@@ -1651,7 +1812,6 @@ output`.
         <th scope="col" class="org-right">b</th>
         </tr>
         </thead>
-        
         <tbody>
         <tr>
         <td class="org-right">1</td>
@@ -1663,6 +1823,61 @@ output`.
         <./plots/file1.pdf>
         
         <./plots/file2.pdf>
+        
+        **Org mode table** produced by an R block:
+        
+            library(RODBC)
+            library(ascii)
+            con <- odbcDriverConnect("driver={SQL Server};server=localhost;database=PFlowXiphias;trusted_connection=true")
+            sql <-
+               "SELECT TOP 4 oprPfiID_fk, oprIdx
+                FROM operateur;"
+            dossier <- sqlQuery(con, sql)
+            print(ascii(dossier, include.rownames=TRUE), type="org")
+        
+        <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+        
+        
+        <colgroup>
+        <col  class="org-right" />
+        
+        <col  class="org-left" />
+        
+        <col  class="org-left" />
+        </colgroup>
+        <thead>
+        <tr>
+        <th scope="col" class="org-right">&#xa0;</th>
+        <th scope="col" class="org-left">oprPfiID_fk</th>
+        <th scope="col" class="org-left">oprIdx</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td class="org-right">1</td>
+        <td class="org-left">00/200105/0001</td>
+        <td class="org-left">COO</td>
+        </tr>
+        
+        <tr>
+        <td class="org-right">2</td>
+        <td class="org-left">00/200105/0001</td>
+        <td class="org-left">GT</td>
+        </tr>
+        
+        <tr>
+        <td class="org-right">3</td>
+        <td class="org-left">00/200105/0003</td>
+        <td class="org-left">COO</td>
+        </tr>
+        
+        <tr>
+        <td class="org-right">4</td>
+        <td class="org-left">00/200105/0003</td>
+        <td class="org-left">CPFI</td>
+        </tr>
+        </tbody>
+        </table>
     
     -   **`:results code`:** This will be **exported as <LANG> code block** (as `verbatim` or `listings` to
         LaTeX).
@@ -1676,43 +1891,47 @@ output`.
                   (nth 2 (org-babel-get-src-block-info)))
     
     <p class="verse">
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+begin\_src R :results pp replace<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>>  c(&ldquo;**\* New header2", "<./graph1.pdf>", "", "\*** and second header&rdquo;, &ldquo;and some text&rdquo; )<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+end\_src<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>><br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+results:<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : \*\* New header2<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : <./graph1.pdf><br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> :<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : \*\* and second header<br  />
-    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : and some text<br  />
-    <br  />
-    >>>> I don&rsquo;t quite understand your code below and what it is supposed to do.<br  />
-    >>><br  />
-    >>> Drawers are probably better in most cases, but this code lets you use<br  />
-    >>> &rsquo;:results pp replace&rsquo; while developing, but converts the fixed-width pp<br  />
-    >>> results into raw results when desired (e.g. in a buffer copy before some<br  />
-    >>> action is taken).<br  />
-    >><br  />
-    >> OK - I see. But what is the advantage in this approach? Drawer do<br  />
-    >> perfectly what I want, i.e. encapsulating an org structure in a for<br  />
-    >> replacement when re-calculated, inside the drawer they behave like<br  />
-    >> normal org structure (folding, &#x2026;) and upon export they are exported as<br  />
-    >> org code would be - or am I missing something?<br  />
-    ><br  />
-    > There are none (for you) then, but it might be useful anyway in some<br  />
-    > situations, at least the results look more like part of the document<br  />
-    > when you care about the looks of the org file too (not only the export<br  />
-    > results).<br  />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+begin\_src R :results pp replace<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>>  c(&ldquo;**\* New header2&ldquo;, &rdquo;<./graph1.pdf>&ldquo;, &rdquo;&ldquo;, &rdquo;\*** and second header&rdquo;, &ldquo;and some text&rdquo; )<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+end\_src<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>><br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> #+results:<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : **\* New header2<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : <./graph1.pdf><br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> :<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : \*** and second header<br />
+    &#xa0;&#xa0;&#xa0;&#xa0;&#xa0;>> : and some text<br />
+    <br />
+    >>>> I don&rsquo;t quite understand your code below and what it is supposed to do.<br />
+    >>><br />
+    >>> Drawers are probably better in most cases, but this code lets you use<br />
+    >>> &rsquo;:results pp replace&rsquo; while developing, but converts the fixed-width pp<br />
+    >>> results into raw results when desired (e.g. in a buffer copy before some<br />
+    >>> action is taken).<br />
+    >><br />
+    >> OK - I see. But what is the advantage in this approach? Drawer do<br />
+    >> perfectly what I want, i.e. encapsulating an org structure in a for<br />
+    >> replacement when re-calculated, inside the drawer they behave like<br />
+    >> normal org structure (folding, &#x2026;) and upon export they are exported as<br />
+    >> org code would be - or am I missing something?<br />
+    ><br />
+    > There are none (for you) then, but it might be useful anyway in some<br />
+    > situations, at least the results look more like part of the document<br />
+    > when you care about the looks of the org file too (not only the export<br />
+    > results).<br />
     </p>
+
+
+<a id="org1e4eabb"></a>
 
 ## Remarks
 
 With `raw`, as there are **no obvious markers to delimit the results** in the Org mode
-buffer, there is no way to know where raw results begin or end.  So, `:results
-raw replace` will never work as expected: **raw results cannot be removed** (they
-become part of the buffer), and you&rsquo;ll get duplicates when re-evaluating the
-code block.
+buffer, Org has no way to know where raw results begin or end and whether the
+results of the code block are already inserted in the document or not.  So,
+`:results raw replace` will never work as expected: **raw results cannot be removed**
+(they become part of the buffer), and you&rsquo;ll get duplicates when re-evaluating
+the code block.
 
 The sole purpose of `raw` results is to allow inserting an headline (a real
 headline, not comma protected) in the buffer, because headlines cannot be
@@ -1742,40 +1961,47 @@ No matter how special the results drawer is, it cannot (and shouldn&rsquo;t)
 contain headlines.
 
 <p class="verse">
-> Or wrap the results in a drawer when you type C-c C-c, but render them as<br  />
-> raw on export (which removes the drawer and replaces with raw results).<br  />
-><br  />
-> Like so:<br  />
-><br  />
-> #+header: :results (if (boundp &rsquo;backend) &ldquo;raw&rdquo; &ldquo;drawer&rdquo;)<br  />
-> #+begin\_src emacs-lisp :exports both<br  />
-><br  />
-> (format &ldquo;\* headline\n1\n2\n5\n&rdquo;)<br  />
-> #+end\_src<br  />
-<br  />
-That&rsquo;s a very nice tip - one small weakness is that it&rsquo;ll do the wrong<br  />
-thing if you just happen to have a binding for &ldquo;backend&rdquo; outside of the<br  />
-export mechanism.<br  />
+> Or wrap the results in a drawer when you type C-c C-c, but render them as<br />
+> raw on export (which removes the drawer and replaces with raw results).<br />
+><br />
+> Like so:<br />
+><br />
+> #+header: :results (if (boundp &rsquo;backend) &ldquo;raw&rdquo; &ldquo;drawer&rdquo;)<br />
+> #+begin\_src emacs-lisp :exports both<br />
+><br />
+> (format &ldquo;\* headline\n1\n2\n5\n&rdquo;)<br />
+> #+end\_src<br />
+<br />
+That&rsquo;s a very nice tip - one small weakness is that it&rsquo;ll do the wrong<br />
+thing if you just happen to have a binding for &ldquo;backend&rdquo; outside of the<br />
+export mechanism.<br />
 </p>
 
 A naked &ldquo;`tildes`&rdquo; will be marked up as &ldquo;\verb~tildes~&rdquo; under `:results raw` or
 `:results latex raw`, and as &ldquo;`tildes`&rdquo; under `:results latex`.
 
+
 ## Examples
+
 
 ### Interpreting the results as a file path
 
+
 ## See also
 
-:exports (See section 10)   
-:file (See section 11)   
-:wrap (See section 30)
+[:exports](#exports)   
+[:file](#file)   
+[:wrap](#wrap)
 
 ---
+
+
+<a id="rownames"></a>
 
 # :rownames
 
 Handles row names in tables.
+
 
 ## Options
 
@@ -1783,16 +2009,21 @@ Handles row names in tables.
 
 -   **`:rownames yes`:** Tells Org that your first column contains row names.
 
+
 ## See also
 
-:colnames (See section 5)   
-:wrap (See section 30)
+[:colnames](#colnames)   
+[:wrap](#wrap)
 
 ---
+
+
+<a id="sep"></a>
 
 # :sep
 
 Specifies a delimiter for reading or writing **tabular results**.
+
 
 ## Options
 
@@ -1800,7 +2031,9 @@ Specifies a delimiter for reading or writing **tabular results**.
 
 -   **`:sep <SEPARATOR>`:** Sets separator to `<SEPARATOR>`.
 
+
 ## Examples
+
 
 ### Saving the tabular output to a CSV file
 
@@ -1810,15 +2043,20 @@ Save the output of `ls -l` as a `.csv` file.
 
 Recall that `:results value` is the default.
 
+
 ## See also
 
-:file (See section 11)
+[:file](#file)
 
 ---
+
+
+<a id="session"></a>
 
 # :session
 
 Shares data and persists state between (evaluation of) different code blocks.
+
 
 ## Options
 
@@ -1828,6 +2066,7 @@ Shares data and persists state between (evaluation of) different code blocks.
 -   **`:session <NAME>`:** Performs evaluation using a persistently running inferior process to which
     the code block is submitted.   
     (default for Screen code blocks: session name set to `default`)
+
 
 ## Remarks
 
@@ -1847,20 +2086,26 @@ Shares data and persists state between (evaluation of) different code blocks.
 -   Adding session to a shell source block has the following impact: commands will
     be run from `~` directory (instead of the local one).
 
+
 ## See also
 
-:eval (See section 9)   
-:exports (See section 10)
+[:eval](#eval)   
+[:exports](#exports)
 
 ---
+
+
+<a id="shebang"></a>
 
 # :shebang
 
 Uses preamble for tangled files (and **make** them **executable**).
 
+
 ## Options
 
 -   **`:shebang <SHEBANG>`:** Specifies the shebang.
+
 
 ## Remarks
 
@@ -1870,6 +2115,7 @@ Note that whenever a file is tangled which includes a shebang line, Org Babel
 will make the file executable, so there is good reason to **only add shebangs
 at the source-code level**.
 
+
 ## Examples
 
 Set the shebang.
@@ -1878,9 +2124,13 @@ Set the shebang.
 
 ---
 
+
+<a id="tangle"></a>
+
 # :tangle
 
 Toggles tangling and specify file name.
+
 
 ## Options
 
@@ -1890,6 +2140,7 @@ Toggles tangling and specify file name.
     (`$(basename).<MODE-EXT>`).
 
 -   **`:tangle <FILENAME>`:** Specifies an alternate target file.
+
 
 ## Remarks
 
@@ -1906,15 +2157,20 @@ tangled.
 Propagating changes back from tangled code to Org mode blocks (aka
 &ldquo;**detangling**&rdquo;) is possible with the function `org-babel-detangle`.
 
+
 ## See also
 
-:noweb (See section 16)
+[:noweb](#noweb)
 
 ---
+
+
+<a id="tangle-mode"></a>
 
 # :tangle-mode
 
 Controls the permissions of tangled files.
+
 
 ## Example
 
@@ -1922,22 +2178,27 @@ Controls the permissions of tangled files.
 
 ---
 
+
+<a id="var"></a>
+
 # :var
 
 **Passes arguments** to code blocks.
+
 
 ## Options
 
 -   **`:var <NAME>=<VALUE>`:** Assigns a **default** value (literal or reference to a literal, a table, a
     list or a code block) to the argument.
 
+
 ## Remarks
 
 Multiple `var` specifications behind a single `:var` are allowed.  The multiple
 var arguments must be space-separated:
 
-    
     #+PROPERTY: header-args :var foo=1 bar=2
+    
     #+begin_src emacs-lisp
     (+ foo bar)
     #+end_src
@@ -1955,8 +2216,10 @@ and
     : hello world
 
 <div class="inlinetask">
-<b><span class="todo TODO">TODO</span> Question about prefix char</b><br  />
-So, the prefix char of such lines should be `|`, `:` or `-`?
+<b><span class="todo TODO">TODO</span> Question about prefix char</b><br />
+<p>
+So, the prefix char of such lines should be <code>|</code>, <code>:</code> or <code>-</code>?
+</p>
 </div>
 
 The value passed to an argument can be:
@@ -2006,15 +2269,19 @@ reused if possible, instead of being re-calculated.  If the referring code block
 is cached, its hash value will depend on the value of all the code blocks it
 references.
 
+
 ## Examples
+
 
 ### Literal string
 
     value
 
+
 ### Literal number
 
     42
+
 
 ### Reference to a literal example block
 
@@ -2032,16 +2299,16 @@ references.
 <td class="org-left">Les sanglots longs</td>
 </tr>
 
-
 <tr>
-<td class="org-left">des violons de l'automne</td>
+<td class="org-left">des violons de l&rsquo;automne</td>
 </tr>
 </tbody>
 </table>
 
+
 ### Reference to part of a table
 
-<table id="orgtable7" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org15a0244" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -2058,13 +2325,11 @@ references.
 <td class="org-left">bar1</td>
 </tr>
 
-
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">foo2</td>
 <td class="org-left">bar2</td>
 </tr>
-
 
 <tr>
 <td class="org-right">2</td>
@@ -2091,7 +2356,6 @@ references.
 <td class="org-left">bar2</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">foo3</td>
@@ -2117,7 +2381,6 @@ references.
 <td class="org-left">bar2</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-left">foo3</td>
@@ -2126,7 +2389,7 @@ references.
 </tbody>
 </table>
 
-<table id="orgtable8" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org319f8fd" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -2143,7 +2406,6 @@ references.
 <th scope="col" class="org-left">var2</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-right">0</td>
@@ -2151,13 +2413,11 @@ references.
 <td class="org-left">bar1</td>
 </tr>
 
-
 <tr>
 <td class="org-right">1</td>
 <td class="org-left">foo2</td>
 <td class="org-left">bar2</td>
 </tr>
-
 
 <tr>
 <td class="org-right">2</td>
@@ -2168,6 +2428,7 @@ references.
 </table>
 
     hline
+
 
 ### Reference to a list
 
@@ -2194,6 +2455,7 @@ references.
 </tbody>
 </table>
 
+
 ### Reference to a code block
 
 It is possible to **chain code blocks** (possibly in different languages) in `:var`
@@ -2219,14 +2481,12 @@ lines, as shown:
 <td class="org-right">10</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-right">5</td>
 <td class="org-right">8</td>
 <td class="org-right">11</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -2241,9 +2501,13 @@ lines, as shown:
 
 ---
 
+
+<a id="wrap"></a>
+
 # :wrap
 
 Delimit the results (of source block evaluation).
+
 
 ## Options
 
@@ -2257,19 +2521,22 @@ Delimit the results (of source block evaluation).
 
 **XXX How to unset it (when set in a higher level)?**
 
+
 ## Remarks
 
 The `:wrap` header argument gives you control over the formatting of results
 from code blocks.
 
+
 ## Examples
+
 
 ### Using `:wrap` with no value
 
 The following example wraps the results in `#+begin_results` &#x2026; `#+end_results`
 block.
 
-<div class="results">
+<div class="results" id="org7a5c53d">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2290,14 +2557,12 @@ block.
 <td class="org-right">10</td>
 </tr>
 
-
 <tr>
 <td class="org-right">2</td>
 <td class="org-right">5</td>
 <td class="org-right">8</td>
 <td class="org-right">11</td>
 </tr>
-
 
 <tr>
 <td class="org-right">3</td>
@@ -2310,11 +2575,13 @@ block.
 
 </div>
 
+
 ### Using `:wrap` with a string value
 
 The following examples puts the **output in an `example` block**.
 
     Some results wrapped in an example block.
+
 
 ### Using `:wrap` to produce a source code block in a named language
 
@@ -2327,6 +2594,8 @@ instead of being wrapped in a `\begin{verbatim}..\end{verbatim}` environment.
 Alternatively, you can use the :post header argument to wrap the results in a
 source block.
 
+
 ## See also
 
-:results (See section 22)
+[:results](#results)
+
