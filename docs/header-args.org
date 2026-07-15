@@ -1641,9 +1641,9 @@ Specifies what type of results the code block will return.
      # #+end_src
      #
      # #+results:
-     # #+begin_html
+     # #+begin_export html
      # output <b>HTML</b> formatted text
-     # #+end_html
+     # #+end_export
 
 - ~:results latex~ ::
      Specifies that the *results* of the code block is *raw LaTeX code* (which can
